@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Schedule - Microsoft Entra ID</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .markdown-content h1 { @apply text-4xl font-bold text-slate-900 mb-6 mt-8 }
+        .markdown-content h2 { @apply text-3xl font-bold text-slate-900 mb-4 mt-8 border-b-2 border-sky-500 pb-2 }
+        .markdown-content h3 { @apply text-2xl font-bold text-slate-800 mb-3 mt-6 }
+        .markdown-content h4 { @apply text-xl font-semibold text-slate-700 mb-2 mt-4 }
+        .markdown-content p { @apply text-slate-600 mb-4 leading-relaxed }
+        .markdown-content ul { @apply list-disc list-inside mb-4 space-y-2 text-slate-600 }
+        .markdown-content ol { @apply list-decimal list-inside mb-4 space-y-2 text-slate-600 }
+        .markdown-content li { @apply ml-4 }
+        .markdown-content a { @apply text-sky-600 hover:text-sky-700 underline }
+        .markdown-content code { @apply bg-slate-100 px-2 py-1 rounded text-sm font-mono text-sky-600 }
+        .markdown-content pre { @apply bg-slate-900 text-slate-100 p-4 rounded-lg mb-4 overflow-x-auto }
+        .markdown-content pre code { @apply bg-transparent p-0 text-slate-100 }
+        .markdown-content blockquote { @apply border-l-4 border-sky-500 pl-4 italic text-slate-600 my-4 }
+        .markdown-content strong { @apply font-semibold text-slate-900 }
+        .markdown-content table { @apply w-full border-collapse mb-4 }
+        .markdown-content th { @apply bg-slate-100 border border-slate-300 px-4 py-2 text-left font-semibold }
+        .markdown-content td { @apply border border-slate-300 px-4 py-2 }
+        .markdown-content hr { @apply my-8 border-slate-300 }
+    </style>
+</head>
+<body class="font-sans antialiased bg-slate-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/80 backdrop-blur-md z-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-slate-900">Entra ID Academy</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="start.html" class="text-slate-600 hover:text-slate-900 transition">← Back to Tracks</a>
+                    <a href="labs/schedule-timeline.html" class="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition text-sm">
+                        Progress Tracker
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loading State -->
+    <div id="loading" class="pt-32 pb-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-sky-500"></div>
+            <p class="mt-4 text-slate-600">Loading schedule...</p>
+        </div>
+    </div>
+
+    <!-- Content Container -->
+    <div id="content" class="hidden pt-24 pb-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Track Badge -->
+            <div id="trackBadge" class="mb-8"></div>
+
+            <!-- Markdown Content -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12 markdown-content" id="markdownContent">
+                <!-- Content will be loaded here -->
+            </div>
+
+            <!-- Navigation -->
+            <div class="mt-8 flex justify-between">
+                <a href="start.html" class="inline-flex items-center px-6 py-3 border-2 border-slate-300 text-slate-700 rounded-xl hover:border-sky-500 hover:text-sky-600 transition">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to Track Selection
+                </a>
+                <a href="labs/schedule-timeline.html" class="inline-flex items-center px-6 py-3 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition">
+                    Track Your Progress
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get track from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const track = urlParams.get('track') || 'standard';
+
+        // Track configurations
+        const trackConfig = {
+            prework: {
+                file: 'docs/Entra-ID-5-Day-Schedule.md',
+                section: 'PRE-WORK',
+                badge: {
+                    icon: '🚀',
+                    text: 'Pre-Work Setup',
+                    color: 'bg-gradient-to-r from-pink-500 to-rose-500'
+                }
+            },
+            fast: {
+                file: 'docs/Entra-ID-5-Day-Schedule.md',
+                section: 'DAY 1',
+                badge: {
+                    icon: '⚡',
+                    text: 'Fast Track (2 Days)',
+                    color: 'bg-gradient-to-r from-amber-500 to-orange-500'
+                }
+            },
+            standard: {
+                file: 'docs/Entra-ID-5-Day-Schedule.md',
+                section: 'DAY 1',
+                badge: {
+                    icon: '🎯',
+                    text: 'Standard Track (3-4 Days)',
+                    color: 'bg-gradient-to-r from-sky-500 to-cyan-500'
+                }
+            },
+            comprehensive: {
+                file: 'docs/Entra-ID-5-Day-Schedule.md',
+                section: 'DAY 1',
+                badge: {
+                    icon: '🏆',
+                    text: 'Comprehensive Track (5 Days)',
+                    color: 'bg-gradient-to-r from-violet-500 to-purple-500'
+                }
+            }
+        };
+
+        const config = trackConfig[track] || trackConfig.standard;
+
+        // Render track badge
+        document.getElementById('trackBadge').innerHTML = `
+            <div class="inline-flex items-center px-6 py-3 ${config.badge.color} text-white rounded-full text-lg font-semibold shadow-lg">
+                <span class="text-2xl mr-3">${config.badge.icon}</span>
+                ${config.badge.text}
+            </div>
+        `;
+
+        // Fetch and render markdown
+        fetch(config.file)
+            .then(response => response.text())
+            .then(markdown => {
+                // Parse markdown to HTML
+                const html = marked.parse(markdown);
+
+                // Display content
+                document.getElementById('markdownContent').innerHTML = html;
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('content').classList.remove('hidden');
+
+                // Smooth scroll to section if specified
+                if (config.section) {
+                    setTimeout(() => {
+                        const heading = Array.from(document.querySelectorAll('h2, h3')).find(
+                            h => h.textContent.includes(config.section)
+                        );
+                        if (heading) {
+                            heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 100);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading schedule:', error);
+                document.getElementById('loading').innerHTML = `
+                    <div class="max-w-4xl mx-auto text-center">
+                        <div class="text-6xl mb-4">😕</div>
+                        <h2 class="text-2xl font-bold text-slate-900 mb-2">Unable to Load Schedule</h2>
+                        <p class="text-slate-600 mb-6">There was an error loading the schedule content.</p>
+                        <a href="start.html" class="inline-flex items-center px-6 py-3 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition">
+                            Back to Track Selection
+                        </a>
+                    </div>
+                `;
+            });
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-8 px-4">
+        <div class="max-w-7xl mx-auto text-center text-slate-400 text-sm">
+            <p class="mb-2">Independent educational resource • Not affiliated with Microsoft®</p>
+            <p>&copy; 2025 Entra ID Academy • MIT License</p>
+        </div>
+    </footer>
+</body>
+</html>
