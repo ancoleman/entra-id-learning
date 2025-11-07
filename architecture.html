@@ -1,300 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft Entra ID - Enterprise Architecture Explorer</title>
+    <title>Architecture Explorer - Microsoft Entra ID</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-            color: #333;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .nav {
-            background: white;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 140px;
-            z-index: 99;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .nav-btn {
-            padding: 10px 20px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95em;
-        }
-
-        .nav-btn:hover, .nav-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .layer-section {
-            background: white;
-            margin-bottom: 40px;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-        .layer-section:nth-child(even) {
-            animation-delay: 0.1s;
-        }
-
-        .layer-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #667eea;
-        }
-
-        .layer-icon {
-            font-size: 3em;
-            margin-right: 20px;
-        }
-
-        .layer-title h2 {
-            color: #667eea;
-            font-size: 2em;
-            margin-bottom: 5px;
-        }
-
-        .layer-subtitle {
-            color: #666;
-            font-size: 1.1em;
-        }
-
-        .diagram-container {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            overflow-x: auto;
-        }
-
-        .mermaid {
-            text-align: center;
-        }
-
-        .description {
-            line-height: 1.8;
-            color: #555;
-            font-size: 1.05em;
-            margin: 20px 0;
-        }
-
-        .highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .highlight-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            transition: transform 0.3s ease;
-        }
-
-        .highlight-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .highlight-card h4 {
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-
-        .use-case {
-            background: #e8f5e9;
-            border-left: 5px solid #4caf50;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-
-        .use-case h4 {
-            color: #2e7d32;
-            margin-bottom: 10px;
-        }
-
-        .commandments {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            margin: 40px 0;
-        }
-
-        .commandments h3 {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 30px;
-        }
-
-        .commandments ol {
-            list-style: none;
-            counter-reset: commandment;
-        }
-
-        .commandments li {
-            counter-increment: commandment;
-            padding: 15px 0;
-            padding-left: 60px;
-            position: relative;
-            font-size: 1.1em;
-            line-height: 1.6;
-        }
-
-        .commandments li::before {
-            content: counter(commandment);
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        .footer-nav {
-            text-align: center;
-            padding: 40px 20px;
-            background: white;
-            margin-top: 40px;
-        }
-
-        .footer-nav a {
-            display: inline-block;
-            margin: 10px;
-            padding: 15px 30px;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .footer-nav a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+                }
             }
         }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-            .layer-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .layer-icon {
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
-
-            .nav {
-                top: 120px;
-            }
-        }
-    </style>
+    </script>
 </head>
-<body>
-    <div class="header">
-        <h1>🏗️ Microsoft Entra ID</h1>
-        <p>Enterprise Architecture & Integration Explorer</p>
-    </div>
-
-    <div class="nav">
-        <button class="nav-btn active" onclick="scrollToLayer(0)">🎯 Central Concept</button>
-        <button class="nav-btn" onclick="scrollToLayer(1)">🏗️ Core Identity</button>
-        <button class="nav-btn" onclick="scrollToLayer(2)">🔐 Security</button>
-        <button class="nav-btn" onclick="scrollToLayer(3)">🌐 Integration</button>
-        <button class="nav-btn" onclick="scrollToLayer(4)">🔄 Hybrid</button>
-        <button class="nav-btn" onclick="scrollToLayer(5)">⚖️ Governance</button>
-        <button class="nav-btn" onclick="scrollToLayer(6)">📊 Monitoring</button>
-    </div>
-
-    <div class="container">
-        <!-- Central Concept -->
-        <div class="layer-section" id="layer-0">
-            <div class="layer-header">
-                <div class="layer-icon">🎯</div>
-                <div class="layer-title">
-                    <h2>Central Concept</h2>
-                    <p class="layer-subtitle">Microsoft Entra ID as the Identity Control Plane</p>
+<body class="font-sans antialiased bg-slate-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/80 backdrop-blur-md z-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-slate-900">Entra ID Academy</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-slate-600 hover:text-slate-900 transition">Home</a>
+                    <a href="start.html" class="text-slate-600 hover:text-slate-900 transition">Learning Tracks</a>
+                    <a href="labs/schedule-timeline.html" class="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition text-sm">
+                        Progress Tracker
+                    </a>
                 </div>
             </div>
-            <div class="description">
-                <p>Microsoft Entra ID sits at the heart of the Microsoft cloud ecosystem, serving as the central identity and access management platform for all cloud and hybrid scenarios. It provides authentication, authorization, directory services, and identity protection for users, devices, applications, and services.</p>
+        </div>
+    </nav>
+
+    <!-- Sticky Layer Navigation -->
+    <div class="fixed top-16 w-full bg-white border-b border-slate-200 z-40 hidden md:block">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-center space-x-4 text-sm flex-wrap">
+                <button onclick="scrollToLayer(0)" class="layer-nav px-4 py-2 rounded-lg hover:bg-sky-50 transition" data-layer="0">🎯 Overview</button>
+                <button onclick="scrollToLayer(1)" class="layer-nav px-4 py-2 rounded-lg hover:bg-sky-50 transition" data-layer="1">🏗️ Core Identity</button>
+                <button onclick="scrollToLayer(2)" class="layer-nav px-4 py-2 rounded-lg hover:bg-sky-50 transition" data-layer="2">🔐 Security</button>
+                <button onclick="scrollToLayer(3)" class="layer-nav px-4 py-2 rounded-lg hover:bg-sky-50 transition" data-layer="3">🌐 Integration</button>
+                <button onclick="scrollToLayer(4)" class="layer-nav px-4 py-2 rounded-lg hover:bg-sky-50 transition" data-layer="4">🔄 Hybrid</button>
+                <button onclick="scrollToLayer(5)" class="layer-nav px-4 py-2 rounded-lg hover:bg-sky-50 transition" data-layer="5">⚖️ Governance</button>
+                <button onclick="scrollToLayer(6)" class="layer-nav px-4 py-2 rounded-lg hover:bg-sky-50 transition" data-layer="6">📊 Monitoring</button>
             </div>
-            <div class="diagram-container">
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="pt-24 md:pt-32 pb-12 px-4 bg-gradient-to-br from-slate-900 to-slate-800">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">🏗️ Architecture Explorer</h1>
+            <p class="text-xl text-slate-300">Visual journey through the Microsoft Entra ID ecosystem</p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <div class="max-w-7xl mx-auto px-4 py-12 space-y-12">
+
+        <!-- Layer 0: Central Concept -->
+        <section id="layer-0" class="bg-white rounded-2xl shadow-lg p-8 md:p-12 scroll-mt-32">
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-2xl flex items-center justify-center text-3xl">
+                    🎯
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">Central Concept</h2>
+                    <p class="text-slate-600">Microsoft Entra ID as the Identity Control Plane</p>
+                </div>
+            </div>
+
+            <p class="text-slate-600 mb-8 leading-relaxed">
+                Microsoft Entra ID sits at the heart of the Microsoft cloud ecosystem, serving as the central identity and access management platform for all cloud and hybrid scenarios. It provides authentication, authorization, directory services, and identity protection.
+            </p>
+
+            <div class="bg-slate-50 rounded-xl p-6">
                 <div class="mermaid">
 graph TD
     A[Microsoft Entra ID<br/>Identity Control Plane] --> B[Authentication]
@@ -310,50 +99,60 @@ graph TD
     C --> J[RBAC]
     C --> K[App Permissions]
 
-    style A fill:#667eea,stroke:#333,stroke-width:4px,color:#fff
-    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
-    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
-    style H fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    style A fill:#0ea5e9,stroke:#333,stroke-width:4px,color:#fff
+    style F fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style G fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style H fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Layer 1: Core Identity -->
-        <div class="layer-section" id="layer-1">
-            <div class="layer-header">
-                <div class="layer-icon">🏗️</div>
-                <div class="layer-title">
-                    <h2>Layer 1: Core Identity Services</h2>
-                    <p class="layer-subtitle">The Foundation of Entra ID</p>
+        <section id="layer-1" class="bg-white rounded-2xl shadow-lg p-8 md:p-12 scroll-mt-32">
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center text-3xl">
+                    🏗️
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">Core Identity Services</h2>
+                    <p class="text-slate-600">The Foundation of Entra ID</p>
                 </div>
             </div>
-            <div class="highlights">
-                <div class="highlight-card">
-                    <h4>👥 Users</h4>
-                    <p>Internal, external, and guest identities</p>
+
+            <div class="grid md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200">
+                    <div class="text-2xl mb-2">👥</div>
+                    <h4 class="font-semibold text-slate-900 mb-1">Users</h4>
+                    <p class="text-sm text-slate-600">Internal, external, and guest identities</p>
                 </div>
-                <div class="highlight-card">
-                    <h4>🔵 Groups</h4>
-                    <p>Security, M365, and dynamic groups</p>
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200">
+                    <div class="text-2xl mb-2">🔵</div>
+                    <h4 class="font-semibold text-slate-900 mb-1">Groups</h4>
+                    <p class="text-sm text-slate-600">Security, M365, and dynamic groups</p>
                 </div>
-                <div class="highlight-card">
-                    <h4>💻 Devices</h4>
-                    <p>Joined, registered, and compliant devices</p>
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200">
+                    <div class="text-2xl mb-2">💻</div>
+                    <h4 class="font-semibold text-slate-900 mb-1">Devices</h4>
+                    <p class="text-sm text-slate-600">Joined, registered, and compliant devices</p>
                 </div>
-                <div class="highlight-card">
-                    <h4>📱 Applications</h4>
-                    <p>App registrations and enterprise apps</p>
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200">
+                    <div class="text-2xl mb-2">📱</div>
+                    <h4 class="font-semibold text-slate-900 mb-1">Applications</h4>
+                    <p class="text-sm text-slate-600">App registrations and enterprise apps</p>
                 </div>
-                <div class="highlight-card">
-                    <h4>⚙️ Workload Identities</h4>
-                    <p>Service principals and managed identities</p>
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200">
+                    <div class="text-2xl mb-2">⚙️</div>
+                    <h4 class="font-semibold text-slate-900 mb-1">Workload Identities</h4>
+                    <p class="text-sm text-slate-600">Service principals and managed identities</p>
                 </div>
-                <div class="highlight-card">
-                    <h4>🔑 Managed Identities</h4>
-                    <p>Password-free Azure resource authentication</p>
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200">
+                    <div class="text-2xl mb-2">🔑</div>
+                    <h4 class="font-semibold text-slate-900 mb-1">Managed Identities</h4>
+                    <p class="text-sm text-slate-600">Password-free Azure resource authentication</p>
                 </div>
             </div>
-            <div class="diagram-container">
+
+            <div class="bg-slate-50 rounded-xl p-6">
                 <div class="mermaid">
 graph LR
     subgraph Core Identity Fabric
@@ -362,136 +161,170 @@ graph LR
         C[Devices] --> D
         E[Apps] --> D
         F[Workload Identities] --> D
-        G[Managed Identities] --> D
     end
 
-    D --> H[Authentication Services]
-    D --> I[Authorization Services]
+    D --> H[Authentication]
+    D --> I[Authorization]
 
-    style D fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+    style D fill:#0ea5e9,stroke:#333,stroke-width:3px,color:#fff
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Layer 2: Security -->
-        <div class="layer-section" id="layer-2">
-            <div class="layer-header">
-                <div class="layer-icon">🔐</div>
-                <div class="layer-title">
-                    <h2>Layer 2: Security & Access Control</h2>
-                    <p class="layer-subtitle">Zero Trust Security Model</p>
+        <section id="layer-2" class="bg-white rounded-2xl shadow-lg p-8 md:p-12 scroll-mt-32">
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center text-3xl">
+                    🔐
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">Security & Access Control</h2>
+                    <p class="text-slate-600">Zero Trust Security Model</p>
                 </div>
             </div>
-            <div class="description">
-                <p>Entra ID implements Zero Trust principles through multi-layered security controls including multi-factor authentication, passwordless options, Conditional Access policies, and AI-powered Identity Protection.</p>
+
+            <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6 mb-8">
+                <p class="text-slate-700 leading-relaxed">
+                    Entra ID implements Zero Trust principles through multi-layered security controls including multi-factor authentication, passwordless options, Conditional Access policies, and AI-powered Identity Protection.
+                </p>
             </div>
-            <div class="diagram-container">
+
+            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-500 p-6 rounded-xl text-white">
+                    <h4 class="font-bold mb-3 text-lg">🔒 Multi-Factor Authentication</h4>
+                    <p class="text-sm text-emerald-50">Authenticator app, SMS, FIDO2 keys, biometrics</p>
+                </div>
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-500 p-6 rounded-xl text-white">
+                    <h4 class="font-bold mb-3 text-lg">🚫 Passwordless</h4>
+                    <p class="text-sm text-emerald-50">Windows Hello, FIDO2 keys, Phone sign-in</p>
+                </div>
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-500 p-6 rounded-xl text-white">
+                    <h4 class="font-bold mb-3 text-lg">⚡ Conditional Access</h4>
+                    <p class="text-sm text-emerald-50">Fine-grained policy control over every access</p>
+                </div>
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-500 p-6 rounded-xl text-white">
+                    <h4 class="font-bold mb-3 text-lg">🛡️ Identity Protection</h4>
+                    <p class="text-sm text-emerald-50">AI-powered risk detection and remediation</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-6">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Conditional Access Decision Flow</h3>
                 <div class="mermaid">
 graph TD
-    A[User Sign-In Request] --> B{WHO?}
-    B --> C{WHAT?}
+    A[User Sign-In Request] --> B{WHO?<br/>User/Group}
+    B --> C{WHAT?<br/>Cloud Apps}
     C --> D{CONDITIONS?}
 
-    D --> E[Location Check]
+    D --> E[Location]
     D --> F[Device State]
     D --> G[Sign-in Risk]
     D --> H[Platform]
 
-    E & F & G & H --> I{GRANT ACCESS?}
+    E & F & G & H --> I{GRANT?}
 
     I -->|Deny| J[Block]
     I -->|Conditional| K[Require MFA]
-    I -->|Conditional| L[Require Compliant Device]
+    I -->|Conditional| L[Require Compliance]
     I -->|Allow| M[Grant Access]
 
-    K & L & M --> N[Session Controls]
-
-    style A fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
-    style I fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
-    style J fill:#f44336,stroke:#333,stroke-width:2px,color:#fff
-    style M fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    style A fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style I fill:#0ea5e9,stroke:#333,stroke-width:3px,color:#fff
+    style J fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
+    style M fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
                 </div>
             </div>
-            <div class="highlights">
-                <div class="highlight-card">
-                    <h4>🔒 Multi-Factor Authentication</h4>
-                    <p>Authenticator app, SMS, FIDO2 keys, biometrics</p>
-                </div>
-                <div class="highlight-card">
-                    <h4>🚫 Passwordless</h4>
-                    <p>Windows Hello, FIDO2, Phone sign-in</p>
-                </div>
-                <div class="highlight-card">
-                    <h4>⚡ Conditional Access</h4>
-                    <p>Fine-grained policy control over every access</p>
-                </div>
-                <div class="highlight-card">
-                    <h4>🛡️ Identity Protection</h4>
-                    <p>AI-powered risk detection and remediation</p>
-                </div>
-            </div>
-        </div>
+        </section>
 
         <!-- Layer 3: Integration -->
-        <div class="layer-section" id="layer-3">
-            <div class="layer-header">
-                <div class="layer-icon">🌐</div>
-                <div class="layer-title">
-                    <h2>Layer 3: Microsoft Cloud Integration</h2>
-                    <p class="layer-subtitle">Powering the Microsoft Ecosystem</p>
+        <section id="layer-3" class="bg-white rounded-2xl shadow-lg p-8 md:p-12 scroll-mt-32">
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-500 rounded-2xl flex items-center justify-center text-3xl">
+                    🌐
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">Microsoft Cloud Integration</h2>
+                    <p class="text-slate-600">Powering the Microsoft Ecosystem</p>
                 </div>
             </div>
-            <div class="diagram-container">
+
+            <div class="bg-slate-50 rounded-xl p-6 mb-8">
                 <div class="mermaid">
 graph TD
     A[Microsoft Entra ID] --> B[Microsoft 365]
     A --> C[Azure Platform]
     A --> D[Dynamics 365]
 
-    B --> B1[Exchange Online]
+    B --> B1[Exchange]
     B --> B2[SharePoint]
     B --> B3[Teams]
     B --> B4[Power Platform]
 
-    C --> C1[Azure VMs]
-    C --> C2[Azure Storage]
+    C --> C1[VMs]
+    C --> C2[Storage]
     C --> C3[App Services]
-    C --> C4[Azure SQL]
 
     D --> D1[Sales]
     D --> D2[Service]
-    D --> D3[Marketing]
 
-    B & C & D --> E[Single Sign-On Experience]
+    B & C & D --> E[Single Sign-On]
 
-    style A fill:#667eea,stroke:#333,stroke-width:4px,color:#fff
-    style E fill:#4CAF50,stroke:#333,stroke-width:3px,color:#fff
+    style A fill:#0ea5e9,stroke:#333,stroke-width:4px,color:#fff
+    style E fill:#10b981,stroke:#333,stroke-width:3px,color:#fff
                 </div>
             </div>
-            <div class="use-case">
-                <h4>Enterprise SSO Integration</h4>
-                <p>Connect 2,600+ pre-integrated apps from the gallery including Salesforce, ServiceNow, AWS, Slack, and more using SAML, OAuth 2.0/OIDC, or password-based SSO.</p>
-            </div>
-        </div>
 
-        <!-- Layer 4: Hybrid Identity -->
-        <div class="layer-section" id="layer-4">
-            <div class="layer-header">
-                <div class="layer-icon">🔄</div>
-                <div class="layer-title">
-                    <h2>Layer 4: Hybrid Identity</h2>
-                    <p class="layer-subtitle">Bridging On-Premises and Cloud</p>
+            <div class="bg-violet-50 border border-violet-200 rounded-xl p-6">
+                <h4 class="font-bold text-violet-900 mb-2">Enterprise SSO Integration</h4>
+                <p class="text-slate-700">Connect 2,600+ pre-integrated apps from the gallery including Salesforce, ServiceNow, AWS, Slack using SAML, OAuth 2.0/OIDC, or password-based SSO.</p>
+            </div>
+        </section>
+
+        <!-- Layer 4: Hybrid -->
+        <section id="layer-4" class="bg-white rounded-2xl shadow-lg p-8 md:p-12 scroll-mt-32">
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center text-3xl">
+                    🔄
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">Hybrid Identity</h2>
+                    <p class="text-slate-600">Bridging On-Premises and Cloud</p>
                 </div>
             </div>
-            <div class="diagram-container">
+
+            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                <div class="bg-gradient-to-br from-orange-500 to-amber-500 p-6 rounded-xl text-white">
+                    <h4 class="font-bold mb-2">🔄 Password Hash Sync</h4>
+                    <p class="text-sm text-orange-50">Recommended: Synchronized password hashes for cloud authentication</p>
+                </div>
+                <div class="bg-gradient-to-br from-orange-500 to-amber-500 p-6 rounded-xl text-white">
+                    <h4 class="font-bold mb-2">🔀 Pass-Through Auth</h4>
+                    <p class="text-sm text-orange-50">On-premises password validation via agents</p>
+                </div>
+                <div class="bg-gradient-to-br from-orange-500 to-amber-500 p-6 rounded-xl text-white">
+                    <h4 class="font-bold mb-2">🤝 Federation (AD FS)</h4>
+                    <p class="text-sm text-orange-50">Federated authentication for complex scenarios</p>
+                </div>
+                <div class="bg-gradient-to-br from-orange-500 to-amber-500 p-6 rounded-xl text-white">
+                    <h4 class="font-bold mb-2">✨ Seamless SSO</h4>
+                    <p class="text-sm text-orange-50">Automatic sign-in on corporate devices</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-6">
                 <div class="mermaid">
 graph TB
     subgraph On-Premises
-        A[Active Directory] --> B[Entra Connect]
-        C[On-Prem Apps] --> B
+        A[Active Directory]
+        C[On-Prem Apps]
     end
 
-    B -->|Sync| D[Microsoft Entra ID]
+    A --> B[Entra Connect]
+    C --> B
+
+    B -->|Password Hash Sync| D[Microsoft Entra ID]
+    B -.->|Pass-Through Auth| D
+    B -.->|Federation| D
 
     subgraph Cloud
         D --> E[Cloud Apps]
@@ -499,48 +332,47 @@ graph TB
         D --> G[Azure Resources]
     end
 
-    B -.->|Password Hash Sync| D
-    B -.->|Pass-Through Auth| D
-    B -.->|Federation| D
-
-    style A fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
-    style B fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
-    style D fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+    style B fill:#0ea5e9,stroke:#333,stroke-width:3px,color:#fff
+    style D fill:#0ea5e9,stroke:#333,stroke-width:3px,color:#fff
                 </div>
             </div>
-            <div class="highlights">
-                <div class="highlight-card">
-                    <h4>🔄 Password Hash Sync (Recommended)</h4>
-                    <p>Synchronized password hashes for cloud authentication</p>
-                </div>
-                <div class="highlight-card">
-                    <h4>🔀 Pass-Through Authentication</h4>
-                    <p>On-premises password validation</p>
-                </div>
-                <div class="highlight-card">
-                    <h4>🤝 Federation (AD FS)</h4>
-                    <p>Federated authentication for complex scenarios</p>
-                </div>
-                <div class="highlight-card">
-                    <h4>✨ Seamless SSO</h4>
-                    <p>Automatic sign-in on corporate devices</p>
-                </div>
-            </div>
-        </div>
+        </section>
 
         <!-- Layer 5: Governance -->
-        <div class="layer-section" id="layer-5">
-            <div class="layer-header">
-                <div class="layer-icon">⚖️</div>
-                <div class="layer-title">
-                    <h2>Layer 5: Governance & Compliance</h2>
-                    <p class="layer-subtitle">Identity Lifecycle Management</p>
+        <section id="layer-5" class="bg-white rounded-2xl shadow-lg p-8 md:p-12 scroll-mt-32">
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center text-3xl">
+                    ⚖️
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">Governance & Compliance</h2>
+                    <p class="text-slate-600">Identity Lifecycle Management</p>
                 </div>
             </div>
-            <div class="diagram-container">
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-xl border border-indigo-200">
+                    <h4 class="font-bold text-indigo-900 mb-2">📦 Access Packages</h4>
+                    <p class="text-sm text-slate-700">Bundle resources and automate access requests with approval workflows</p>
+                </div>
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-xl border border-indigo-200">
+                    <h4 class="font-bold text-indigo-900 mb-2">🔍 Access Reviews</h4>
+                    <p class="text-sm text-slate-700">Periodic certification of user access rights for compliance</p>
+                </div>
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-xl border border-indigo-200">
+                    <h4 class="font-bold text-indigo-900 mb-2">⏰ Lifecycle Workflows</h4>
+                    <p class="text-sm text-slate-700">Automated onboarding and offboarding processes</p>
+                </div>
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-xl border border-indigo-200">
+                    <h4 class="font-bold text-indigo-900 mb-2">👑 Privileged Identity Management</h4>
+                    <p class="text-sm text-slate-700">Just-in-time privileged access with time-bound assignments</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-6">
                 <div class="mermaid">
 graph LR
-    A[Joiner] -->|Onboarding| B[Entitlement Management]
+    A[Joiner] -->|Onboarding| B[Entitlement<br/>Management]
     C[Mover] -->|Role Change| B
     D[Leaver] -->|Offboarding| B
 
@@ -548,49 +380,34 @@ graph LR
     B --> F[Access Reviews]
     B --> G[Lifecycle Workflows]
 
-    E & F & G --> H[PIM<br/>Just-In-Time Access]
+    E & F & G --> H[PIM<br/>Just-In-Time]
 
-    H --> I[Time-Bound Assignments]
-    H --> J[Approval Workflows]
-    H --> K[Access Monitoring]
-
-    style B fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
-    style H fill:#764ba2,stroke:#333,stroke-width:3px,color:#fff
+    style B fill:#0ea5e9,stroke:#333,stroke-width:3px,color:#fff
+    style H fill:#8b5cf6,stroke:#333,stroke-width:3px,color:#fff
                 </div>
             </div>
-            <div class="highlights">
-                <div class="highlight-card">
-                    <h4>📦 Access Packages</h4>
-                    <p>Bundle resources and automate access requests</p>
-                </div>
-                <div class="highlight-card">
-                    <h4>🔍 Access Reviews</h4>
-                    <p>Periodic certification of user access rights</p>
-                </div>
-                <div class="highlight-card">
-                    <h4>⏰ Lifecycle Workflows</h4>
-                    <p>Automated onboarding and offboarding</p>
-                </div>
-                <div class="highlight-card">
-                    <h4>👑 Privileged Identity Management</h4>
-                    <p>Just-in-time privileged access</p>
-                </div>
-            </div>
-        </div>
+        </section>
 
         <!-- Layer 6: Monitoring -->
-        <div class="layer-section" id="layer-6">
-            <div class="layer-header">
-                <div class="layer-icon">📊</div>
-                <div class="layer-title">
-                    <h2>Layer 6: Monitoring & Intelligence</h2>
-                    <p class="layer-subtitle">Security Operations & Analytics</p>
+        <section id="layer-6" class="bg-white rounded-2xl shadow-lg p-8 md:p-12 scroll-mt-32">
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center text-3xl">
+                    📊
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">Monitoring & Intelligence</h2>
+                    <p class="text-slate-600">Security Operations & Analytics</p>
                 </div>
             </div>
-            <div class="diagram-container">
+
+            <p class="text-slate-600 mb-8 leading-relaxed">
+                Comprehensive monitoring with sign-in logs, audit trails, and AI-powered threat detection through Identity Protection and Security Copilot integration.
+            </p>
+
+            <div class="bg-slate-50 rounded-xl p-6">
                 <div class="mermaid">
 graph TD
-    A[Entra ID Sign-In Logs] --> B[Azure Monitor]
+    A[Sign-In Logs] --> B[Azure Monitor]
     A --> C[Identity Protection]
 
     B --> D[Log Analytics]
@@ -599,59 +416,157 @@ graph TD
 
     C --> G[Risk Scoring]
     C --> H[ML Detection]
-    C --> I[Investigation]
 
-    D & E & F & G & H & I --> J[Microsoft Sentinel<br/>Cloud SIEM]
+    D & E & F & G & H --> J[Microsoft Sentinel<br/>SIEM]
 
     J --> K[Security Copilot<br/>AI Analysis]
 
-    style A fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
-    style J fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
-    style K fill:#764ba2,stroke:#333,stroke-width:3px,color:#fff
+    style A fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style J fill:#0ea5e9,stroke:#333,stroke-width:3px,color:#fff
+    style K fill:#8b5cf6,stroke:#333,stroke-width:3px,color:#fff
                 </div>
             </div>
-            <div class="description">
-                <p>Comprehensive monitoring with sign-in logs, audit trails, and AI-powered threat detection through Identity Protection and Security Copilot integration.</p>
-            </div>
-        </div>
+        </section>
 
         <!-- The 10 Commandments -->
-        <div class="commandments">
-            <h3>📜 The 10 Commandments of Entra ID</h3>
-            <ol>
-                <li><strong>Entra ID is the HEART</strong> - Every Microsoft cloud service connects through it</li>
-                <li><strong>Zero Trust is the PHILOSOPHY</strong> - Never trust, always verify</li>
-                <li><strong>Conditional Access is your POWER TOOL</strong> - Fine-grained control over every access</li>
-                <li><strong>Identities are MORE THAN USERS</strong> - Devices, apps, services all need identity</li>
-                <li><strong>Hybrid is REALITY</strong> - Bridge on-premises and cloud seamlessly</li>
-                <li><strong>Governance prevents PRIVILEGE CREEP</strong> - Automate access lifecycle</li>
-                <li><strong>AI enhances SECURITY</strong> - Risk detection and Security Copilot help you</li>
-                <li><strong>Monitoring is MANDATORY</strong> - Logs, alerts, investigations are critical</li>
-                <li><strong>SSO improves USER EXPERIENCE</strong> - One login for everything</li>
-                <li><strong>Continuous LEARNING is essential</strong> - Platform evolves monthly</li>
-            </ol>
-        </div>
+        <section class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 md:p-12 text-white">
+            <h2 class="text-3xl font-bold text-center mb-8">📜 The 10 Commandments of Entra ID</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">1</div>
+                        <div>
+                            <h4 class="font-bold mb-1">Entra ID is the HEART</h4>
+                            <p class="text-slate-300 text-sm">Every Microsoft cloud service connects through it</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">2</div>
+                        <div>
+                            <h4 class="font-bold mb-1">Zero Trust is the PHILOSOPHY</h4>
+                            <p class="text-slate-300 text-sm">Never trust, always verify</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">3</div>
+                        <div>
+                            <h4 class="font-bold mb-1">Conditional Access is your POWER TOOL</h4>
+                            <p class="text-slate-300 text-sm">Fine-grained control over every access</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">4</div>
+                        <div>
+                            <h4 class="font-bold mb-1">Identities are MORE THAN USERS</h4>
+                            <p class="text-slate-300 text-sm">Devices, apps, services all need identity</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">5</div>
+                        <div>
+                            <h4 class="font-bold mb-1">Hybrid is REALITY</h4>
+                            <p class="text-slate-300 text-sm">Bridge on-premises and cloud seamlessly</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">6</div>
+                        <div>
+                            <h4 class="font-bold mb-1">Governance prevents PRIVILEGE CREEP</h4>
+                            <p class="text-slate-300 text-sm">Automate access lifecycle management</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">7</div>
+                        <div>
+                            <h4 class="font-bold mb-1">AI enhances SECURITY</h4>
+                            <p class="text-slate-300 text-sm">Risk detection and Security Copilot help you</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">8</div>
+                        <div>
+                            <h4 class="font-bold mb-1">Monitoring is MANDATORY</h4>
+                            <p class="text-slate-300 text-sm">Logs, alerts, investigations are critical</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">9</div>
+                        <div>
+                            <h4 class="font-bold mb-1">SSO improves USER EXPERIENCE</h4>
+                            <p class="text-slate-300 text-sm">One login for everything increases adoption</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center flex-shrink-0 font-bold">10</div>
+                        <div>
+                            <h4 class="font-bold mb-1">Continuous LEARNING is essential</h4>
+                            <p class="text-slate-300 text-sm">Platform evolves monthly—stay current</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <div class="footer-nav">
-        <h3 style="margin-bottom: 20px; color: #667eea;">Continue Your Journey</h3>
-        <a href="index.html">🏠 Home</a>
-        <a href="labs/schedule-timeline.html">📅 Interactive Schedule</a>
-        <a href="docs/Entra-ID-5-Day-Schedule.md">📖 Detailed Schedule</a>
-        <a href="https://entra.microsoft.com" target="_blank">🚀 Entra Admin Center</a>
-    </div>
+    <!-- CTA -->
+    <section class="py-16 px-4 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">Ready to Start Learning?</h2>
+            <p class="text-xl text-slate-600 mb-8">Begin your journey to Microsoft Entra ID mastery</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="start.html" class="px-8 py-4 bg-sky-500 text-white rounded-xl font-semibold hover:bg-sky-600 transition">
+                    Choose Your Track →
+                </a>
+                <a href="labs/schedule-timeline.html" class="px-8 py-4 border-2 border-slate-300 text-slate-700 rounded-xl hover:border-sky-500 hover:text-sky-600 transition">
+                    Track Progress
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-8 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="index.html" class="text-slate-400 hover:text-white transition text-sm">Home</a>
+                <a href="start.html" class="text-slate-400 hover:text-white transition text-sm">Learning Tracks</a>
+                <a href="labs/schedule-timeline.html" class="text-slate-400 hover:text-white transition text-sm">Progress Tracker</a>
+            </div>
+            <p class="text-slate-500 text-xs mb-2">Independent educational resource • Not affiliated with Microsoft®</p>
+            <p class="text-slate-400 text-sm">&copy; 2025 Entra ID Academy • MIT License</p>
+        </div>
+    </footer>
 
     <script>
+        // Initialize Mermaid
         mermaid.initialize({
             startOnLoad: true,
             theme: 'default',
             themeVariables: {
-                primaryColor: '#667eea',
+                primaryColor: '#0ea5e9',
                 primaryTextColor: '#fff',
                 primaryBorderColor: '#333',
-                lineColor: '#667eea',
-                secondaryColor: '#764ba2',
-                tertiaryColor: '#f5f7fa',
+                lineColor: '#0ea5e9',
+                secondaryColor: '#06b6d4',
+                tertiaryColor: '#f8fafc',
             }
         });
 
@@ -661,31 +576,43 @@ graph TD
                 layer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
                 // Update active button
-                document.querySelectorAll('.nav-btn').forEach((btn, i) => {
-                    btn.classList.toggle('active', i === index);
+                document.querySelectorAll('.layer-nav').forEach((btn) => {
+                    btn.classList.remove('bg-sky-100', 'text-sky-700', 'font-semibold');
+                    btn.classList.add('text-slate-600');
                 });
+
+                const activeBtn = document.querySelector(`[data-layer="${index}"]`);
+                if (activeBtn) {
+                    activeBtn.classList.add('bg-sky-100', 'text-sky-700', 'font-semibold');
+                    activeBtn.classList.remove('text-slate-600');
+                }
             }
         }
 
-        // Highlight active section on scroll
-        const sections = document.querySelectorAll('.layer-section');
-        const navButtons = document.querySelectorAll('.nav-btn');
+        // Scroll spy for navigation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const layerId = entry.target.id;
+                    const layerIndex = layerId.split('-')[1];
 
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (window.pageYOffset >= sectionTop - 200) {
-                    current = section.getAttribute('id');
+                    document.querySelectorAll('.layer-nav').forEach((btn) => {
+                        btn.classList.remove('bg-sky-100', 'text-sky-700', 'font-semibold');
+                        btn.classList.add('text-slate-600');
+                    });
+
+                    const activeBtn = document.querySelector(`[data-layer="${layerIndex}"]`);
+                    if (activeBtn) {
+                        activeBtn.classList.add('bg-sky-100', 'text-sky-700', 'font-semibold');
+                        activeBtn.classList.remove('text-slate-600');
+                    }
                 }
             });
+        }, { threshold: 0.3 });
 
-            navButtons.forEach((btn, index) => {
-                btn.classList.remove('active');
-                if (current === `layer-${index}`) {
-                    btn.classList.add('active');
-                }
-            });
+        // Observe all layer sections
+        document.querySelectorAll('[id^="layer-"]').forEach(section => {
+            observer.observe(section);
         });
     </script>
 </body>

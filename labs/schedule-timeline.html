@@ -1,305 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entra ID Learning - 5-Day Schedule Timeline</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        h1 {
-            text-align: center;
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        .progress-bar {
-            background: #e0e0e0;
-            height: 30px;
-            border-radius: 15px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .timeline {
-            position: relative;
-            padding: 20px 0;
-        }
-
-        .day-section {
-            margin-bottom: 40px;
-            position: relative;
-            padding-left: 40px;
-        }
-
-        .day-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .day-number {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2em;
-            font-weight: bold;
-            color: white;
-            margin-right: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .day-0 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .day-1 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .day-2 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-        .day-3 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-        .day-4 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
-        .day-5 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
-
-        .day-title {
-            flex: 1;
-        }
-
-        .day-title h2 {
-            margin-bottom: 5px;
-            font-size: 1.8em;
-        }
-
-        .day-duration {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .modules {
-            margin-left: 100px;
-        }
-
-        .module {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 15px 20px;
-            margin: 10px 0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .module:hover {
-            transform: translateX(10px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .module.completed {
-            background: #e8f5e9;
-            border-left-color: #4caf50;
-        }
-
-        .module-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .module-title {
-            font-weight: 600;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-        }
-
-        .module-time {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .checkbox {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #667eea;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .checkbox.checked {
-            background: #4caf50;
-            border-color: #4caf50;
-        }
-
-        .checkbox.checked::after {
-            content: '✓';
-            color: white;
-            font-weight: bold;
-        }
-
-        .module-description {
-            margin-top: 10px;
-            color: #555;
-            font-size: 0.95em;
-            display: none;
-        }
-
-        .module.expanded .module-description {
-            display: block;
-        }
-
-        .controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 30px 0;
-            gap: 20px;
-        }
-
-        .stat-card {
-            flex: 1;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        @media (max-width: 768px) {
-            .modules {
-                margin-left: 0;
-            }
-
-            .stats {
-                flex-direction: column;
-            }
-
-            h1 {
-                font-size: 1.8em;
+    <title>Progress Tracker - Microsoft Entra ID Learning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+                }
             }
         }
-    </style>
+    </script>
 </head>
-<body>
-    <div class="container">
-        <h1>📚 Microsoft Entra ID Learning Journey</h1>
-        <p class="subtitle">5-Day Accelerated Training Program</p>
-
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill">0%</div>
+<body class="font-sans antialiased bg-slate-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/80 backdrop-blur-md z-50 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="../index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-slate-900">Entra ID Academy</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="../start.html" class="text-slate-600 hover:text-slate-900 transition hidden md:block">← Back to Tracks</a>
+                    <button onclick="resetProgress()" class="text-slate-600 hover:text-slate-900 transition text-sm">Reset</button>
+                    <button onclick="exportProgress()" class="px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition text-sm">
+                        Export Progress
+                    </button>
+                </div>
+            </div>
         </div>
+    </nav>
 
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-value" id="completedModules">0</div>
-                <div class="stat-label">Modules Completed</div>
+    <!-- Hero -->
+    <section class="pt-24 pb-12 px-4 bg-gradient-to-br from-slate-900 to-slate-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">📊 Learning Progress Tracker</h1>
+                <p class="text-xl text-slate-300">Track your journey through the 5-day program</p>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalHours">40-56</div>
-                <div class="stat-label">Total Hours</div>
+
+            <!-- Progress Bar -->
+            <div class="bg-slate-800 rounded-2xl p-6 mb-6">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-slate-300 font-medium">Overall Progress</span>
+                    <span class="text-white font-bold text-lg" id="progressText">0%</span>
+                </div>
+                <div class="bg-slate-700 rounded-full h-4 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-sky-500 to-cyan-500 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="daysRemaining">6</div>
-                <div class="stat-label">Days in Program</div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-slate-800 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-sky-400" id="completedCount">0</div>
+                    <div class="text-slate-400 text-sm">Completed</div>
+                </div>
+                <div class="bg-slate-800 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-slate-300" id="totalCount">26</div>
+                    <div class="text-slate-400 text-sm">Total Modules</div>
+                </div>
+                <div class="bg-slate-800 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-cyan-400" id="currentDay">0</div>
+                    <div class="text-slate-400 text-sm">Current Day</div>
+                </div>
+                <div class="bg-slate-800 rounded-xl p-4 text-center">
+                    <div class="text-3xl font-bold text-emerald-400">40-56h</div>
+                    <div class="text-slate-400 text-sm">Total Time</div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="timeline" id="timeline">
+    <!-- Timeline -->
+    <section class="py-12 px-4">
+        <div class="max-w-7xl mx-auto" id="timeline">
             <!-- Timeline will be populated by JavaScript -->
         </div>
+    </section>
 
-        <div class="controls">
-            <button class="btn btn-secondary" onclick="resetProgress()">Reset</button>
-            <button class="btn btn-primary" onclick="exportProgress()">Export Progress</button>
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-8 px-4 mt-12">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="../index.html" class="text-slate-400 hover:text-white transition text-sm">Home</a>
+                <a href="../start.html" class="text-slate-400 hover:text-white transition text-sm">Learning Tracks</a>
+                <a href="../architecture.html" class="text-slate-400 hover:text-white transition text-sm">Architecture</a>
+            </div>
+            <p class="text-slate-400 text-sm">&copy; 2025 Entra ID Academy • MIT License</p>
         </div>
-    </div>
+    </footer>
 
     <script>
         const scheduleData = [
@@ -307,21 +106,27 @@
                 day: 0,
                 title: "Pre-Work Setup",
                 duration: "1-2 hours",
+                color: "from-pink-500 to-rose-500",
+                borderColor: "border-pink-500",
+                bgColor: "bg-pink-50",
                 modules: [
-                    { title: "Azure Free Account Setup", time: "30 min", description: "Create free Azure account with $200 credit" },
-                    { title: "M365 Developer Program", time: "30 min", description: "Set up instant sandbox with E5 licenses" },
-                    { title: "Bookmark Essential Portals", time: "15 min", description: "Entra Admin, Azure Portal, M365 Admin, Graph Explorer" },
-                    { title: "Install Tools", time: "15 min", description: "Microsoft Authenticator, PowerShell 7+, VS Code" }
+                    { title: "Azure Free Account Setup", time: "30 min", description: "Create free Azure account with $200 credit for 30 days" },
+                    { title: "M365 Developer Program", time: "30 min", description: "Set up instant sandbox with E5 licenses (25 users)" },
+                    { title: "Bookmark Essential Portals", time: "15 min", description: "Entra Admin, Azure Portal, M365 Admin, Graph Explorer, My Apps" },
+                    { title: "Install Tools", time: "15 min", description: "Microsoft Authenticator app, PowerShell 7+, VS Code (optional)" }
                 ]
             },
             {
                 day: 1,
                 title: "Foundations & Identity Fundamentals",
                 duration: "6-8 hours",
+                color: "from-blue-500 to-cyan-500",
+                borderColor: "border-blue-500",
+                bgColor: "bg-blue-50",
                 modules: [
-                    { title: "What is Microsoft Entra ID?", time: "60 min", description: "Entra family, Zero Trust, licensing tiers" },
-                    { title: "Core Identity Concepts", time: "90 min", description: "Users, groups, devices, apps, directory structure" },
-                    { title: "User & Group Management Lab", time: "90 min", description: "Create users, security groups, dynamic groups, bulk import" },
+                    { title: "What is Microsoft Entra ID?", time: "60 min", description: "Entra family, Zero Trust principles, licensing tiers" },
+                    { title: "Core Identity Concepts", time: "90 min", description: "Users, groups, devices, apps, directory structure, RBAC intro" },
+                    { title: "User & Group Management Lab", time: "90 min", description: "Create users, security groups, dynamic groups, bulk import, licenses" },
                     { title: "Administrative Roles & RBAC", time: "90 min", description: "Built-in roles, custom roles, administrative units, delegation" }
                 ]
             },
@@ -329,48 +134,60 @@
                 day: 2,
                 title: "Authentication & Security",
                 duration: "6-8 hours",
+                color: "from-emerald-500 to-teal-500",
+                borderColor: "border-emerald-500",
+                bgColor: "bg-emerald-50",
                 modules: [
-                    { title: "Authentication Methods", time: "90 min", description: "MFA, passwordless, SSPR, authentication policies" },
-                    { title: "Multi-Factor Authentication Lab", time: "90 min", description: "Enable MFA, configure SSPR, test registration" },
-                    { title: "Conditional Access Fundamentals", time: "90 min", description: "Policy structure, conditions, controls, What-If tool" },
-                    { title: "Build Conditional Access Policies", time: "90 min", description: "Create 5+ policies: MFA, block legacy auth, device compliance" },
-                    { title: "Identity Protection", time: "60 min", description: "Risk detection, risk-based policies, investigation" }
+                    { title: "Authentication Methods", time: "90 min", description: "MFA methods, passwordless (FIDO2, Hello), SSPR configuration" },
+                    { title: "Multi-Factor Authentication Lab", time: "90 min", description: "Enable MFA, configure Authenticator, test SSPR, banned passwords" },
+                    { title: "Conditional Access Fundamentals", time: "90 min", description: "Policy structure, conditions, controls, What-If tool, report-only mode" },
+                    { title: "Build Conditional Access Policies", time: "90 min", description: "Create 5+ policies: MFA for admins/all, block legacy auth, device compliance" },
+                    { title: "Identity Protection", time: "60 min", description: "Risk detection types, user/sign-in risk policies, investigation workflows" }
                 ]
             },
             {
                 day: 3,
                 title: "Enterprise Integration & Hybrid Identity",
                 duration: "6-8 hours",
+                color: "from-violet-500 to-purple-500",
+                borderColor: "border-violet-500",
+                bgColor: "bg-violet-50",
                 modules: [
-                    { title: "Enterprise Applications Overview", time: "90 min", description: "SSO protocols (SAML, OIDC), app gallery, Application Proxy" },
-                    { title: "SSO Configuration Lab", time: "90 min", description: "Configure Salesforce, Slack, AWS with SAML SSO" },
-                    { title: "Hybrid Identity Concepts", time: "90 min", description: "Entra Connect, PHS vs PTA vs Federation, Seamless SSO" },
-                    { title: "Microsoft 365 Integration", time: "60 min", description: "M365 access policies, external sharing, Intune compliance" },
-                    { title: "Microsoft Graph & Automation", time: "90 min", description: "Graph Explorer, PowerShell SDK, automation scripts" }
+                    { title: "Enterprise Applications Overview", time: "90 min", description: "SSO protocols (SAML, OIDC), 2600+ app gallery, Application Proxy" },
+                    { title: "SSO Configuration Lab", time: "90 min", description: "Configure Salesforce, Slack, AWS with SAML SSO, test My Apps portal" },
+                    { title: "Hybrid Identity Concepts", time: "90 min", description: "Entra Connect options, PHS vs PTA vs Federation, Seamless SSO" },
+                    { title: "Microsoft 365 Integration", time: "60 min", description: "M365 access policies, external sharing, Teams/SharePoint, Intune" },
+                    { title: "Microsoft Graph & Automation", time: "90 min", description: "Graph Explorer, PowerShell SDK, automate user/group operations" }
                 ]
             },
             {
                 day: 4,
                 title: "Governance & Advanced Features",
                 duration: "6-8 hours",
+                color: "from-orange-500 to-amber-500",
+                borderColor: "border-orange-500",
+                bgColor: "bg-orange-50",
                 modules: [
-                    { title: "Identity Governance Overview", time: "60 min", description: "Joiner-Mover-Leaver lifecycle, access packages, compliance" },
-                    { title: "Entitlement Management Lab", time: "90 min", description: "Create access packages, approval workflows, access reviews" },
-                    { title: "Privileged Identity Management", time: "90 min", description: "JIT access, eligible assignments, activation requirements" },
-                    { title: "PIM Hands-On Lab", time: "90 min", description: "Configure PIM, create eligible assignments, test activation" },
-                    { title: "Advanced Entra Suite Features", time: "90 min", description: "Domain Services, Verified ID, Private/Internet Access, CIEM" }
+                    { title: "Identity Governance Overview", time: "60 min", description: "Joiner-Mover-Leaver lifecycle, entitlements, compliance requirements" },
+                    { title: "Entitlement Management Lab", time: "90 min", description: "Access packages, catalogs, approval workflows, access reviews, My Access" },
+                    { title: "Privileged Identity Management", time: "90 min", description: "Eligible vs active assignments, JIT access, activation requirements" },
+                    { title: "PIM Hands-On Lab", time: "90 min", description: "Configure PIM, eligible assignments, test activation, break-glass accounts" },
+                    { title: "Advanced Entra Suite Features", time: "90 min", description: "Domain Services, Verified ID, Private/Internet Access, CIEM overview" }
                 ]
             },
             {
                 day: 5,
                 title: "Production Readiness & Capstone",
                 duration: "6-8 hours",
+                color: "from-indigo-500 to-blue-500",
+                borderColor: "border-indigo-500",
+                bgColor: "bg-indigo-50",
                 modules: [
-                    { title: "Monitoring & Reporting", time: "90 min", description: "Sign-in logs, audit logs, Log Analytics, KQL queries" },
-                    { title: "Best Practices & Architecture", time: "90 min", description: "Zero Trust maturity, break-glass accounts, deployment planning" },
-                    { title: "Troubleshooting", time: "60 min", description: "Common issues, sign-in errors, CA conflicts, sync errors" },
-                    { title: "Capstone Project", time: "120 min", description: "Design complete identity solution for Contoso Corporation" },
-                    { title: "Latest Features & Continued Learning", time: "60 min", description: "2025 updates, roadmap, community, certification path" }
+                    { title: "Monitoring & Reporting", time: "90 min", description: "Sign-in/audit logs, Log Analytics, KQL queries, workbooks, alerts" },
+                    { title: "Best Practices & Architecture", time: "90 min", description: "Zero Trust maturity, break-glass accounts, deployment planning, baselines" },
+                    { title: "Troubleshooting", time: "60 min", description: "Common issues, sign-in errors, CA conflicts, sync errors, support tickets" },
+                    { title: "Capstone Project", time: "120 min", description: "Design complete identity solution for Contoso Corporation (500 users)" },
+                    { title: "Latest Features & Continued Learning", time: "60 min", description: "2025 updates, roadmap, community, SC-300 certification path" }
                 ]
             }
         ];
@@ -395,72 +212,87 @@
 
             scheduleData.forEach((day, dayIndex) => {
                 const daySection = document.createElement('div');
-                daySection.className = 'day-section';
+                daySection.className = 'mb-12';
+
+                const completedInDay = day.modules.filter((_, modIndex) =>
+                    completedModules.has(`${dayIndex}-${modIndex}`)
+                ).length;
+                const progressPercent = Math.round((completedInDay / day.modules.length) * 100);
+
                 daySection.innerHTML = `
-                    <div class="day-header" onclick="toggleDay(${dayIndex})">
-                        <div class="day-number day-${day.day}">
-                            ${day.day === 0 ? '🚀' : 'Day ' + day.day}
-                        </div>
-                        <div class="day-title">
-                            <h2>${day.title}</h2>
-                            <p class="day-duration">${day.duration}</p>
-                        </div>
-                    </div>
-                    <div class="modules" id="modules-${dayIndex}">
-                        ${day.modules.map((module, moduleIndex) => {
-                            const moduleId = `${dayIndex}-${moduleIndex}`;
-                            const isCompleted = completedModules.has(moduleId);
-                            return `
-                                <div class="module ${isCompleted ? 'completed' : ''}" id="module-${moduleId}">
-                                    <div class="module-header">
-                                        <div>
-                                            <div class="module-title">${module.title}</div>
-                                            <div class="module-time">⏱️ ${module.time}</div>
-                                        </div>
-                                        <div class="checkbox ${isCompleted ? 'checked' : ''}" onclick="toggleModule('${moduleId}')"></div>
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden border-2 ${day.borderColor}">
+                        <!-- Day Header -->
+                        <div class="bg-gradient-to-r ${day.color} p-6 cursor-pointer" onclick="toggleDay(${dayIndex})">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-16 h-16 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center text-2xl font-bold text-white">
+                                        ${day.day === 0 ? '🚀' : day.day}
                                     </div>
-                                    <div class="module-description">${module.description}</div>
+                                    <div>
+                                        <h2 class="text-2xl font-bold text-white mb-1">${day.title}</h2>
+                                        <p class="text-white/80 text-sm">${day.duration} • ${day.modules.length} modules</p>
+                                    </div>
                                 </div>
-                            `;
-                        }).join('')}
+                                <div class="text-right">
+                                    <div class="text-3xl font-bold text-white">${progressPercent}%</div>
+                                    <div class="text-white/80 text-sm">${completedInDay}/${day.modules.length} done</div>
+                                </div>
+                            </div>
+                            <div class="mt-4 bg-white/20 rounded-full h-2 overflow-hidden">
+                                <div class="bg-white h-full transition-all duration-500" style="width: ${progressPercent}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Modules -->
+                        <div class="p-6 space-y-3" id="modules-${dayIndex}">
+                            ${day.modules.map((module, moduleIndex) => {
+                                const moduleId = `${dayIndex}-${moduleIndex}`;
+                                const isCompleted = completedModules.has(moduleId);
+                                return `
+                                    <div class="group relative bg-${day.bgColor} border-2 ${isCompleted ? day.borderColor : 'border-slate-200'} rounded-xl p-4 hover:shadow-md transition-all cursor-pointer ${isCompleted ? 'opacity-75' : ''}"
+                                         onclick="toggleModule('${moduleId}', ${dayIndex})">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex-1 pr-4">
+                                                <div class="flex items-center space-x-3 mb-2">
+                                                    <div class="flex-shrink-0">
+                                                        <button class="w-6 h-6 rounded-md border-2 ${isCompleted ? day.borderColor + ' bg-gradient-to-br ' + day.color : 'border-slate-300 bg-white'} flex items-center justify-center transition"
+                                                                onclick="event.stopPropagation(); toggleModule('${moduleId}', ${dayIndex})">
+                                                            ${isCompleted ? '<svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>' : ''}
+                                                        </button>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <h3 class="font-semibold text-slate-900 ${isCompleted ? 'line-through' : ''}">${module.title}</h3>
+                                                        <p class="text-sm text-slate-600">⏱️ ${module.time}</p>
+                                                    </div>
+                                                </div>
+                                                <p class="text-sm text-slate-600 ml-9 hidden group-hover:block">${module.description}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
                     </div>
                 `;
                 timeline.appendChild(daySection);
             });
 
-            // Add click handlers to modules for expanding descriptions
-            document.querySelectorAll('.module').forEach(module => {
-                module.addEventListener('click', function(e) {
-                    if (!e.target.classList.contains('checkbox')) {
-                        this.classList.toggle('expanded');
-                    }
-                });
-            });
-
             updateStats();
-        }
-
-        function toggleModule(moduleId) {
-            event.stopPropagation();
-            const module = document.getElementById(`module-${moduleId}`);
-            const checkbox = module.querySelector('.checkbox');
-
-            if (completedModules.has(moduleId)) {
-                completedModules.delete(moduleId);
-                module.classList.remove('completed');
-                checkbox.classList.remove('checked');
-            } else {
-                completedModules.add(moduleId);
-                module.classList.add('completed');
-                checkbox.classList.add('checked');
-            }
-
-            saveProgress();
         }
 
         function toggleDay(dayIndex) {
             const modules = document.getElementById(`modules-${dayIndex}`);
-            modules.style.display = modules.style.display === 'none' ? 'block' : 'none';
+            modules.classList.toggle('hidden');
+        }
+
+        function toggleModule(moduleId, dayIndex) {
+            if (completedModules.has(moduleId)) {
+                completedModules.delete(moduleId);
+            } else {
+                completedModules.add(moduleId);
+            }
+            saveProgress();
+            renderTimeline();
         }
 
         function updateStats() {
@@ -468,13 +300,27 @@
             const completed = completedModules.size;
             const percentage = Math.round((completed / totalModules) * 100);
 
-            document.getElementById('progressFill').style.width = percentage + '%';
-            document.getElementById('progressFill').textContent = percentage + '%';
-            document.getElementById('completedModules').textContent = completed + ' / ' + totalModules;
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '%';
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('totalCount').textContent = totalModules;
+
+            // Find current day (first day with incomplete modules)
+            let currentDay = 0;
+            for (let i = 0; i < scheduleData.length; i++) {
+                const dayCompleted = scheduleData[i].modules.every((_, modIndex) =>
+                    completedModules.has(`${i}-${modIndex}`)
+                );
+                if (!dayCompleted) {
+                    currentDay = scheduleData[i].day;
+                    break;
+                }
+            }
+            document.getElementById('currentDay').textContent = currentDay === 0 ? '🚀' : currentDay;
         }
 
         function resetProgress() {
-            if (confirm('Are you sure you want to reset all progress?')) {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
                 completedModules.clear();
                 localStorage.removeItem('entraIdProgress');
                 renderTimeline();
@@ -482,10 +328,19 @@
         }
 
         function exportProgress() {
+            const totalModules = scheduleData.reduce((sum, day) => sum + day.modules.length, 0);
             const data = {
                 timestamp: new Date().toISOString(),
+                version: "0.1.0",
                 completed: [...completedModules],
-                percentage: Math.round((completedModules.size / scheduleData.reduce((sum, day) => sum + day.modules.length, 0)) * 100)
+                completedCount: completedModules.size,
+                totalCount: totalModules,
+                percentage: Math.round((completedModules.size / totalModules) * 100),
+                schedule: scheduleData.map((day, dayIdx) => ({
+                    day: day.day,
+                    title: day.title,
+                    completed: day.modules.filter((_, modIdx) => completedModules.has(`${dayIdx}-${modIdx}`)).map(m => m.title)
+                }))
             };
 
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -494,11 +349,38 @@
             a.href = url;
             a.download = `entra-id-progress-${new Date().toISOString().split('T')[0]}.json`;
             a.click();
+            URL.revokeObjectURL(url);
+
+            // Show toast notification
+            showToast('Progress exported successfully!');
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-emerald-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 animate-bounce';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
 
         // Initialize
         loadProgress();
         renderTimeline();
+
+        // Add celebratory confetti when completing all modules
+        function checkCompletion() {
+            const totalModules = scheduleData.reduce((sum, day) => sum + day.modules.length, 0);
+            if (completedModules.size === totalModules) {
+                showToast('🎉 Congratulations! You completed the entire program!');
+            }
+        }
+
+        // Check completion on every update
+        const originalSave = saveProgress;
+        saveProgress = function() {
+            originalSave();
+            checkCompletion();
+        };
     </script>
 </body>
 </html>
