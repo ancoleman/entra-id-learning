@@ -1359,9 +1359,31 @@ Share it on LinkedIn with #MicrosoftEntra #IdentityAndAccess #CloudSecurity
 
 ---
 
-**Version:** 1.0  
-**Last Updated:** November 2025  
-**Created for:** Independent Learners  
-**License:** Free to use and share  
+**Version:** 1.0
+**Last Updated:** November 2025
+**Created for:** Independent Learners
+**License:** MIT License (see LICENSE file)
+
+---
+
+## ⚖️ **Important Disclaimers**
+
+**Independent Educational Resource**: This is NOT an official Microsoft training program. This is an independent study guide created by Anton Coleman.
+
+**Trademarks**: Microsoft®, Microsoft Entra™, Azure®, and all related product names are trademarks of Microsoft Corporation. This project is not affiliated with, endorsed by, or sponsored by Microsoft.
+
+**Content Attribution**: This program references and links to official Microsoft documentation and Learn modules. All technical content is based on publicly available Microsoft resources. See [DISCLAIMER.md](DISCLAIMER.md) for complete attributions.
+
+**No Warranties**: Provided "AS IS" for educational purposes. Microsoft Entra ID evolves rapidly - always verify against current official documentation.
+
+**Open Source Libraries Used**:
+- [Tailwind CSS](https://tailwindcss.com/) - MIT License
+- [Mermaid.js](https://mermaid.js.org/) - MIT License
+- [Inter Font](https://rsms.me/inter/) - SIL Open Font License
+- [Jekyll](https://jekyllrb.com/) - MIT License
+
+For full disclaimer, attributions, and legal notices, see **[DISCLAIMER.md](DISCLAIMER.md)**
+
+---
 
 **Good luck on your Microsoft Entra ID journey! 🌟**
