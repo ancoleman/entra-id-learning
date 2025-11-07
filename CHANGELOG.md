@@ -5,6 +5,23 @@ All notable changes to the Microsoft Entra ID Learning Program will be documente
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- DISCLAIMER.md with comprehensive legal notices and attributions
+- Proper trademark acknowledgments for Microsoft products
+- Open-source library attributions (Tailwind CSS, Mermaid.js, Inter Font, Jekyll)
+- Disclaimer footers in README.md and index.html
+- Fair use educational purpose statements
+- Privacy and data collection transparency notices
+
+### Changed
+- Redesigned index.html with Tailwind CSS and professional SaaS-inspired UI
+- Updated landing page with modern glass morphism effects and gradients
+- Improved color palette (Sky/Cyan/Slate) for better contrast
+- Enhanced mobile responsiveness across all sections
+- Added Inter font family for professional typography
+
 ## [0.1.0] - 2025-11-07
 
 ### Added
