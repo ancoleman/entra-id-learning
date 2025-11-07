@@ -1,0 +1,57 @@
+# GitHub Pages Configuration for Entra ID Learning
+
+title: Microsoft Entra ID Learning Program
+description: 2-5 Day Intensive Training for Identity & Access Management
+author: Anton Coleman
+email: antonnoble@gmail.com
+
+# Build settings
+theme: minima
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - README.md
+  - CLAUDE.md
+  - LICENSE
+  - .gitignore
+  - .git/
+  - .DS_Store
+
+# Include labs directory
+include:
+  - labs/
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "page"
+  - scope:
+      path: "labs"
+    values:
+      layout: "default"
+
+# Site URL
+url: "https://ancoleman.github.io"
+baseurl: "/entra-id-learning"
+
+# Social
+github_username: ancoleman
+
+# Navigation
+header_pages:
+  - index.html
+  - architecture.html
+  - labs/schedule-timeline.html

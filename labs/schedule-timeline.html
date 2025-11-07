@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entra ID Learning - 5-Day Schedule Timeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .day-section {
+            margin-bottom: 40px;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .day-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+            margin-right: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .day-0 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .day-1 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .day-2 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .day-3 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .day-4 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .day-5 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+
+        .day-title {
+            flex: 1;
+        }
+
+        .day-title h2 {
+            margin-bottom: 5px;
+            font-size: 1.8em;
+        }
+
+        .day-duration {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .modules {
+            margin-left: 100px;
+        }
+
+        .module {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .module:hover {
+            transform: translateX(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .module.completed {
+            background: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .module-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .module-time {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #667eea;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox.checked {
+            background: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+        }
+
+        .module-description {
+            margin-top: 10px;
+            color: #555;
+            font-size: 0.95em;
+            display: none;
+        }
+
+        .module.expanded .module-description {
+            display: block;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            gap: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .modules {
+                margin-left: 0;
+            }
+
+            .stats {
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Microsoft Entra ID Learning Journey</h1>
+        <p class="subtitle">5-Day Accelerated Training Program</p>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill">0%</div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="completedModules">0</div>
+                <div class="stat-label">Modules Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalHours">40-56</div>
+                <div class="stat-label">Total Hours</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="daysRemaining">6</div>
+                <div class="stat-label">Days in Program</div>
+            </div>
+        </div>
+
+        <div class="timeline" id="timeline">
+            <!-- Timeline will be populated by JavaScript -->
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="resetProgress()">Reset</button>
+            <button class="btn btn-primary" onclick="exportProgress()">Export Progress</button>
+        </div>
+    </div>
+
+    <script>
+        const scheduleData = [
+            {
+                day: 0,
+                title: "Pre-Work Setup",
+                duration: "1-2 hours",
+                modules: [
+                    { title: "Azure Free Account Setup", time: "30 min", description: "Create free Azure account with $200 credit" },
+                    { title: "M365 Developer Program", time: "30 min", description: "Set up instant sandbox with E5 licenses" },
+                    { title: "Bookmark Essential Portals", time: "15 min", description: "Entra Admin, Azure Portal, M365 Admin, Graph Explorer" },
+                    { title: "Install Tools", time: "15 min", description: "Microsoft Authenticator, PowerShell 7+, VS Code" }
+                ]
+            },
+            {
+                day: 1,
+                title: "Foundations & Identity Fundamentals",
+                duration: "6-8 hours",
+                modules: [
+                    { title: "What is Microsoft Entra ID?", time: "60 min", description: "Entra family, Zero Trust, licensing tiers" },
+                    { title: "Core Identity Concepts", time: "90 min", description: "Users, groups, devices, apps, directory structure" },
+                    { title: "User & Group Management Lab", time: "90 min", description: "Create users, security groups, dynamic groups, bulk import" },
+                    { title: "Administrative Roles & RBAC", time: "90 min", description: "Built-in roles, custom roles, administrative units, delegation" }
+                ]
+            },
+            {
+                day: 2,
+                title: "Authentication & Security",
+                duration: "6-8 hours",
+                modules: [
+                    { title: "Authentication Methods", time: "90 min", description: "MFA, passwordless, SSPR, authentication policies" },
+                    { title: "Multi-Factor Authentication Lab", time: "90 min", description: "Enable MFA, configure SSPR, test registration" },
+                    { title: "Conditional Access Fundamentals", time: "90 min", description: "Policy structure, conditions, controls, What-If tool" },
+                    { title: "Build Conditional Access Policies", time: "90 min", description: "Create 5+ policies: MFA, block legacy auth, device compliance" },
+                    { title: "Identity Protection", time: "60 min", description: "Risk detection, risk-based policies, investigation" }
+                ]
+            },
+            {
+                day: 3,
+                title: "Enterprise Integration & Hybrid Identity",
+                duration: "6-8 hours",
+                modules: [
+                    { title: "Enterprise Applications Overview", time: "90 min", description: "SSO protocols (SAML, OIDC), app gallery, Application Proxy" },
+                    { title: "SSO Configuration Lab", time: "90 min", description: "Configure Salesforce, Slack, AWS with SAML SSO" },
+                    { title: "Hybrid Identity Concepts", time: "90 min", description: "Entra Connect, PHS vs PTA vs Federation, Seamless SSO" },
+                    { title: "Microsoft 365 Integration", time: "60 min", description: "M365 access policies, external sharing, Intune compliance" },
+                    { title: "Microsoft Graph & Automation", time: "90 min", description: "Graph Explorer, PowerShell SDK, automation scripts" }
+                ]
+            },
+            {
+                day: 4,
+                title: "Governance & Advanced Features",
+                duration: "6-8 hours",
+                modules: [
+                    { title: "Identity Governance Overview", time: "60 min", description: "Joiner-Mover-Leaver lifecycle, access packages, compliance" },
+                    { title: "Entitlement Management Lab", time: "90 min", description: "Create access packages, approval workflows, access reviews" },
+                    { title: "Privileged Identity Management", time: "90 min", description: "JIT access, eligible assignments, activation requirements" },
+                    { title: "PIM Hands-On Lab", time: "90 min", description: "Configure PIM, create eligible assignments, test activation" },
+                    { title: "Advanced Entra Suite Features", time: "90 min", description: "Domain Services, Verified ID, Private/Internet Access, CIEM" }
+                ]
+            },
+            {
+                day: 5,
+                title: "Production Readiness & Capstone",
+                duration: "6-8 hours",
+                modules: [
+                    { title: "Monitoring & Reporting", time: "90 min", description: "Sign-in logs, audit logs, Log Analytics, KQL queries" },
+                    { title: "Best Practices & Architecture", time: "90 min", description: "Zero Trust maturity, break-glass accounts, deployment planning" },
+                    { title: "Troubleshooting", time: "60 min", description: "Common issues, sign-in errors, CA conflicts, sync errors" },
+                    { title: "Capstone Project", time: "120 min", description: "Design complete identity solution for Contoso Corporation" },
+                    { title: "Latest Features & Continued Learning", time: "60 min", description: "2025 updates, roadmap, community, certification path" }
+                ]
+            }
+        ];
+
+        let completedModules = new Set();
+
+        function loadProgress() {
+            const saved = localStorage.getItem('entraIdProgress');
+            if (saved) {
+                completedModules = new Set(JSON.parse(saved));
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('entraIdProgress', JSON.stringify([...completedModules]));
+            updateStats();
+        }
+
+        function renderTimeline() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+
+            scheduleData.forEach((day, dayIndex) => {
+                const daySection = document.createElement('div');
+                daySection.className = 'day-section';
+                daySection.innerHTML = `
+                    <div class="day-header" onclick="toggleDay(${dayIndex})">
+                        <div class="day-number day-${day.day}">
+                            ${day.day === 0 ? '🚀' : 'Day ' + day.day}
+                        </div>
+                        <div class="day-title">
+                            <h2>${day.title}</h2>
+                            <p class="day-duration">${day.duration}</p>
+                        </div>
+                    </div>
+                    <div class="modules" id="modules-${dayIndex}">
+                        ${day.modules.map((module, moduleIndex) => {
+                            const moduleId = `${dayIndex}-${moduleIndex}`;
+                            const isCompleted = completedModules.has(moduleId);
+                            return `
+                                <div class="module ${isCompleted ? 'completed' : ''}" id="module-${moduleId}">
+                                    <div class="module-header">
+                                        <div>
+                                            <div class="module-title">${module.title}</div>
+                                            <div class="module-time">⏱️ ${module.time}</div>
+                                        </div>
+                                        <div class="checkbox ${isCompleted ? 'checked' : ''}" onclick="toggleModule('${moduleId}')"></div>
+                                    </div>
+                                    <div class="module-description">${module.description}</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+                timeline.appendChild(daySection);
+            });
+
+            // Add click handlers to modules for expanding descriptions
+            document.querySelectorAll('.module').forEach(module => {
+                module.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('checkbox')) {
+                        this.classList.toggle('expanded');
+                    }
+                });
+            });
+
+            updateStats();
+        }
+
+        function toggleModule(moduleId) {
+            event.stopPropagation();
+            const module = document.getElementById(`module-${moduleId}`);
+            const checkbox = module.querySelector('.checkbox');
+
+            if (completedModules.has(moduleId)) {
+                completedModules.delete(moduleId);
+                module.classList.remove('completed');
+                checkbox.classList.remove('checked');
+            } else {
+                completedModules.add(moduleId);
+                module.classList.add('completed');
+                checkbox.classList.add('checked');
+            }
+
+            saveProgress();
+        }
+
+        function toggleDay(dayIndex) {
+            const modules = document.getElementById(`modules-${dayIndex}`);
+            modules.style.display = modules.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function updateStats() {
+            const totalModules = scheduleData.reduce((sum, day) => sum + day.modules.length, 0);
+            const completed = completedModules.size;
+            const percentage = Math.round((completed / totalModules) * 100);
+
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressFill').textContent = percentage + '%';
+            document.getElementById('completedModules').textContent = completed + ' / ' + totalModules;
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress?')) {
+                completedModules.clear();
+                localStorage.removeItem('entraIdProgress');
+                renderTimeline();
+            }
+        }
+
+        function exportProgress() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                completed: [...completedModules],
+                percentage: Math.round((completedModules.size / scheduleData.reduce((sum, day) => sum + day.modules.length, 0)) * 100)
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `entra-id-progress-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+
+        // Initialize
+        loadProgress();
+        renderTimeline();
+    </script>
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Microsoft Entra ID 2-5 Day Accelerated Learning Program - Master Identity & Access Management">
+    <title>Microsoft Entra ID Learning Program</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1.2s ease;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            color: #667eea;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+            font-size: 1.5em;
+        }
+
+        .learning-paths {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 60px 20px;
+            margin: 60px 0;
+        }
+
+        .path-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .path-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .path-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .path-duration {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .path-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .path-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .path-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .tools-section {
+            background: #667eea;
+            color: white;
+            padding: 60px 20px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 40px auto 0;
+        }
+
+        .tool-link {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .tool-link:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: white;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1.2em;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🚀 Microsoft Entra ID</h1>
+        <p>Master Identity & Access Management in 2-5 Days</p>
+        <div class="cta-buttons">
+            <a href="labs/schedule-timeline.html" class="btn btn-primary">📅 View Interactive Schedule</a>
+            <a href="architecture.html" class="btn btn-secondary">🏗️ Explore Architecture</a>
+            <a href="https://github.com/ancoleman/entra-id-learning" class="btn btn-secondary">📚 View on GitHub</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">Why This Program?</h2>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Accelerated Learning</h3>
+                <p>Go from beginner to production-ready in just 2-5 days with our intensive, hands-on focused curriculum.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧪</div>
+                <h3>60% Labs</h3>
+                <p>Majority hands-on labs and practical exercises. Learn by doing, not just reading.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>100% Free</h3>
+                <p>All resources, labs, and documentation are completely free. No hidden costs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Production Ready</h3>
+                <p>Learn real-world best practices and Zero Trust implementation from day one.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Visual Learning</h3>
+                <p>Interactive diagrams, architecture visualizations, and progress tracking tools.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3>Capstone Project</h3>
+                <p>Design a complete enterprise identity solution to demonstrate your skills.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="learning-paths">
+        <div class="container">
+            <h2 class="section-title" style="color: #333;">Choose Your Learning Path</h2>
+            <div class="path-cards">
+                <div class="path-card">
+                    <h3>⚡ Fast Track</h3>
+                    <div class="path-duration">2 Days</div>
+                    <p><strong>Core Essentials</strong></p>
+                    <ul class="path-list">
+                        <li>Foundations & user management</li>
+                        <li>Authentication & Conditional Access</li>
+                        <li>Basic monitoring & best practices</li>
+                    </ul>
+                    <p style="margin-top: 20px;"><em>Best for: Quick ramp-up, basic admin tasks</em></p>
+                </div>
+                <div class="path-card">
+                    <h3>🎯 Standard Track</h3>
+                    <div class="path-duration">3-4 Days</div>
+                    <p><strong>Production Ready</strong></p>
+                    <ul class="path-list">
+                        <li>Everything in Fast Track</li>
+                        <li>Enterprise app integration</li>
+                        <li>Identity governance basics</li>
+                        <li>Monitoring & troubleshooting</li>
+                    </ul>
+                    <p style="margin-top: 20px;"><em>Best for: Most learners, real-world implementation</em></p>
+                </div>
+                <div class="path-card">
+                    <h3>🏆 Comprehensive Track</h3>
+                    <div class="path-duration">5 Days</div>
+                    <p><strong>Expert Level</strong></p>
+                    <ul class="path-list">
+                        <li>Everything in Standard Track</li>
+                        <li>Advanced governance & PIM</li>
+                        <li>Hybrid identity deep dive</li>
+                        <li>Complete architecture design project</li>
+                    </ul>
+                    <p style="margin-top: 20px;"><em>Best for: Consultants, architects, security specialists</em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tools-section">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Interactive Learning Tools</h2>
+            <div class="tools-grid">
+                <a href="labs/schedule-timeline.html" class="tool-link">
+                    <h3>📅 Schedule Timeline</h3>
+                    <p>Interactive 5-day schedule with progress tracking</p>
+                </a>
+                <a href="architecture.html" class="tool-link">
+                    <h3>🏗️ Architecture Explorer</h3>
+                    <p>Visual diagrams of Entra ID ecosystem</p>
+                </a>
+                <a href="docs/Entra-ID-5-Day-Schedule.md" class="tool-link">
+                    <h3>📖 Detailed Schedule</h3>
+                    <p>Minute-by-minute breakdown</p>
+                </a>
+                <a href="docs/Entra-ID-Resource-Links.md" class="tool-link">
+                    <h3>🔗 Resource Links</h3>
+                    <p>100+ curated learning resources</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">What You'll Master</h2>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Day 1</h3>
+                <p>Identity fundamentals, users, groups, and RBAC delegation</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>Day 2</h3>
+                <p>MFA, Conditional Access, Identity Protection, and Zero Trust</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Day 3</h3>
+                <p>Enterprise SSO, hybrid identity, and Microsoft Graph automation</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚖️</div>
+                <h3>Day 4</h3>
+                <p>Identity governance, PIM, access packages, and compliance</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Day 5</h3>
+                <p>Monitoring, troubleshooting, and architecture design capstone</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎓</div>
+                <h3>Bonus</h3>
+                <p>SC-300 certification prep and continued learning path</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Microsoft Entra ID Learning Program</p>
+        <p>Created with ❤️ for the identity community by Anton Coleman</p>
+        <p><a href="https://github.com/ancoleman/entra-id-learning">View on GitHub</a> | <a href="https://learn.microsoft.com/entra/">Microsoft Entra Docs</a></p>
+        <p style="margin-top: 20px; font-size: 0.9em;">Last Updated: November 2025</p>
+    </div>
+
+    <script>
+        // Add smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
